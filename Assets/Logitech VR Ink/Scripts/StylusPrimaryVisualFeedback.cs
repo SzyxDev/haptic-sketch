@@ -2,6 +2,7 @@
 
 namespace Logitech.Scripts
 {
+    using Logitech.XRToolkit.Actions;
     using UnityEngine;
     using Valve.VR;
 
@@ -22,6 +23,12 @@ namespace Logitech.Scripts
         [SerializeField]
         private AnimationCurve _mappedCurve;
 
+        private AirDrawingAction _airDrawingAction;
+
+        private void Start() {
+            //_airDrawingAction = new AirDrawingAction();
+        }
+
         private void Update()
         {
             SteamVR_Input_Sources inputSource = GetInputSourceFromStylusDetection
@@ -32,6 +39,8 @@ namespace Logitech.Scripts
             if (mappedPressureValue > 0)
             {
                 mappedPressureValue = _mappedCurve.Evaluate(mappedPressureValue);
+                Debug.Log("Pressed");
+                //_airDrawingAction.Update(true);
             }
             _circleShaderMaterialMeshRenderer.sharedMaterial.SetFloat("_BackgroundCutoff", 1 - mappedPressureValue);
         }
