@@ -31,30 +31,25 @@
         {
             if (_drawingTrigger.GetOutput() > 0 && _buttonState == EButtonEvent.OnButtonUp)
             {
-                Debug.Log("1");
                 _buttonState = EButtonEvent.OnButtonDown;
             }
             else if (_drawingTrigger.GetOutput() > 0)
             {
-                Debug.Log("2");
                 _buttonState = EButtonEvent.OnButton;
             }
 
             if (CanDraw == false && _buttonState == EButtonEvent.OnButtonDown && !_preventAirDrawingOnRaycast.IsValid())
             {
-                Debug.Log("3");
                 CanDraw = true;
             }
 
             if (_drawingTrigger.GetOutput() <= 0)
             {
-                Debug.Log("4");
                 CanDraw = false;
                 _buttonState = EButtonEvent.OnButtonUp;
             }
 
             _airDrawingAction.Update(CanDraw && !_preventAirDrawingOnCollision.IsValid());
-            //_airDrawingAction.Update(true);
 
             Debug.Log("Can Draw: " + CanDraw);
         }

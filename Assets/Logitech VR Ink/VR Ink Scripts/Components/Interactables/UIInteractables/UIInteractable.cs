@@ -229,11 +229,6 @@
                 OnHoverOutEvent();
             }
 
-            if (PhysicalInteraction || RaycastInteraction)
-            {
-                MoveUIElementToZPosition(_restingPosition.z, _animationSpeed);
-            }
-
             if (PhysicalInteraction)
             {
                 ReleasePhysicalClickState();
@@ -266,7 +261,6 @@
                 UIElement.OnPointerDown(_pointerEventData);
             }
 
-            MoveUIElementToZPosition(_restingPosition.z + _maxPressDistance, _clickAnimationSpeed);
             OnButtonDownEvent();
         }
 
