@@ -67,6 +67,7 @@
             {
                 _lineMaterial = new Material(Shader.Find("Sprites/Default"));
             }
+            
             StartNewLine(_trackedDeviceProvider.GetOutput().position, _lineMaterial, _colorProvider.GetOutput(), _maxLineWidth.GetOutput(), autoTaper);
         }
 
@@ -112,6 +113,7 @@
         private void StartNewLine(Vector3 position, Material material, Color color, float lineWidth, bool automatedTaper)
         {
             var go = new GameObject("Drawing");
+            go.tag = "Drawing";
             go.transform.position = new Vector3(0f, 0f, 0f);
             LineRenderer lineRenderer = go.AddComponent<LineRenderer>();
             lineRenderer.material = material;

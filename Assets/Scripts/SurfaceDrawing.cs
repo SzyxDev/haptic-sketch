@@ -27,35 +27,41 @@ namespace Logitech.XRToolkit.Interactions
         public bool CanDraw;
         private EButtonEvent _buttonState = EButtonEvent.OnButtonUp;
 
+        private DrawingManager _drawingManager;
+
+        private void Start()
+        {
+            _drawingManager = GetComponent<DrawingManager>();
+        }
+
         private void Update()
         {
             if (_drawingTrigger.IsValid() && _buttonState == EButtonEvent.OnButtonUp)
             {
-                Debug.Log("1");
                 _buttonState = EButtonEvent.OnButtonDown;
             }
             else if (_drawingTrigger.IsValid())
             {
-                Debug.Log("2");
                 _buttonState = EButtonEvent.OnButton;
             }
 
             if (CanDraw == false && _buttonState == EButtonEvent.OnButtonDown && !_preventAirDrawingOnRaycast.IsValid())
             {
-                Debug.Log("3");
                 CanDraw = true;
             }
 
             if (!_drawingTrigger.IsValid())
             {
-                Debug.Log("4");
                 CanDraw = false;
                 _buttonState = EButtonEvent.OnButtonUp;
             }
 
-            _airDrawingAction.Update(CanDraw && !_preventAirDrawingOnCollision.IsValid());
+            if (CanDraw)
+            {
+                CanDraw = _drawingManager.IsDrawingAllowed(DrawingManager.DrawingInteraction.Surface);
+            }
 
-            Debug.Log("Can Draw Surface: " + CanDraw);
+            _airDrawingAction.Update(CanDraw && !_preventAirDrawingOnCollision.IsValid());
         }
 
         public void SetSmoothingActive()

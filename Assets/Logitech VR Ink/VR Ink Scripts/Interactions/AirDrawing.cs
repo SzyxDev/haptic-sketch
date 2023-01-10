@@ -27,6 +27,13 @@
         public bool CanDraw;
         private EButtonEvent _buttonState = EButtonEvent.OnButtonUp;
 
+        private DrawingManager _drawingManager;
+
+        private void Start()
+        {
+            _drawingManager = GetComponent<DrawingManager>();
+        }
+
         private void Update()
         {
             if (_drawingTrigger.GetOutput() > 0 && _buttonState == EButtonEvent.OnButtonUp)
@@ -49,6 +56,10 @@
                 _buttonState = EButtonEvent.OnButtonUp;
             }
 
+            if (CanDraw)
+            {
+                CanDraw = _drawingManager.IsDrawingAllowed(DrawingManager.DrawingInteraction.MidAir);
+            }
             _airDrawingAction.Update(CanDraw && !_preventAirDrawingOnCollision.IsValid());
 
             Debug.Log("Can Draw: " + CanDraw);
