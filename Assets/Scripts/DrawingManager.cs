@@ -35,7 +35,7 @@ public class DrawingManager : MonoBehaviour
         return GameObject.FindGameObjectsWithTag("Drawing").Length <= 1;
     }
 
-    private void DestroyDrawings()
+    public void DestroyDrawings()
     {
         foreach (GameObject drawing in GameObject.FindGameObjectsWithTag("Drawing"))
         {

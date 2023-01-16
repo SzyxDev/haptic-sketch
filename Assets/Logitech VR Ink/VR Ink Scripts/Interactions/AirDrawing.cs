@@ -61,8 +61,6 @@
                 CanDraw = _drawingManager.IsDrawingAllowed(DrawingManager.DrawingInteraction.MidAir);
             }
             _airDrawingAction.Update(CanDraw && !_preventAirDrawingOnCollision.IsValid());
-
-            Debug.Log("Can Draw: " + CanDraw);
         }
 
         public void SetSmoothingActive()

@@ -19,13 +19,13 @@ public class TemplateRenderer
     {
 
         int segments = 360;
-        float radius = 0.1f;
+        float radius = 0.07f;
         int pointCount = segments + 1;
         _line = container.GetComponent<LineRenderer>();
         _line.positionCount = pointCount;
         _line.useWorldSpace = true;
-        _line.startWidth = 0.028f;
-        _line.endWidth = 0.028f;
+        _line.startWidth = 0.006f;
+        _line.endWidth = 0.006f;
 
         Vector3[] points = new Vector3[pointCount];
         _pos = new Vector3(container.transform.position.x, container.transform.position.y, container.transform.position.z);

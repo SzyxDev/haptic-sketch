@@ -21,11 +21,11 @@ public class TasksNavigator : MonoBehaviour
         _drawingManager = GetComponent<DrawingManager>();
         _text = MessageBox.GetComponent<UnityEngine.UI.Text>();
         _text.text = Messages.Intro;
-        _counter = 0;
+        _counter = 1;
     }
 
 
-    public void SwitchIntroText() 
+    public void SwitchIntroText()
     {
         switch (_counter)
         {
@@ -40,19 +40,22 @@ public class TasksNavigator : MonoBehaviour
                 _drawingManager.SetAllowedDrawingInteraction(DrawingManager.DrawingInteraction.Both);
                 break;
             case 3:
-                _text.text = Messages.TasksInAction;
+                _text.text = Messages.TasksInActionMidAir;
                 _templateRenderer.RenderCircle(TemplateBase, TemplateRenderer.Rotation.Horizontal);
                 _drawingManager.SetAllowedDrawingInteraction(DrawingManager.DrawingInteraction.MidAir);
                 break;
             case 4:
+                _text.text = Messages.TasksInActionSurface;
                 _templateRenderer.RenderCircle(TemplateBase, TemplateRenderer.Rotation.Horizontal);
                 _drawingManager.SetAllowedDrawingInteraction(DrawingManager.DrawingInteraction.Surface);
                 break;
             case 5:
+                _text.text = Messages.TasksInActionMidAir;
                 _templateRenderer.RenderCircle(TemplateBase, TemplateRenderer.Rotation.Vertical);
                 _drawingManager.SetAllowedDrawingInteraction(DrawingManager.DrawingInteraction.MidAir);
                 break;
             case 6:
+                _text.text = Messages.TasksInActionSurface;
                 _templateRenderer.RenderCircle(TemplateBase, TemplateRenderer.Rotation.Vertical);
                 _drawingManager.SetAllowedDrawingInteraction(DrawingManager.DrawingInteraction.Surface);
                 break;

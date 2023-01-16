@@ -97,7 +97,6 @@
                     break;
                 case ETrackingAbstraction.SteamVR:
 //#if STEAMVR_ENABLED
-                    Debug.Log("Bla");
                     SteamVR_Behaviour_Pose steamComponent = GetComponent<SteamVR_Behaviour_Pose>();
                     if (steamComponent == null)
                     {
