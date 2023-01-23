@@ -31,6 +31,15 @@
         [SerializeField]
         private Material _lineMaterial;
 
+        [SerializeField]
+        private TimeManager _timeManager;
+
+        [SerializeField]
+        private DrawingDataManager _drawingDataManager;
+
+        [SerializeField]
+        private string _drawingMethod;
+
         private Provider<float> _maxLineWidth = new FunctionProvider<float>(() => DrawingVariables.Instance.LineMaxWidth * DrawingVariables.AirWidthModifier);
         private Provider<Color> _colorProvider = new FunctionProvider<Color>(() => DrawingVariables.Instance.Colour);
 
@@ -60,6 +69,7 @@
         /// </summary>
         protected override void OnTriggerValid()
         {
+            _timeManager.StartLineTimer();
             _timer = TimeInterval;
             // Start a new line
             bool autoTaper = !_useAnalog;
@@ -108,6 +118,19 @@
         protected override void OnTriggerInvalid()
         {
             _currentLine.gameObject.AddComponent<UndoRedoGameObject>();
+            addLineDataToDrawingData();
+        }
+
+        private void addLineDataToDrawingData()
+        {
+            TimeSpan lineTime = _timeManager.StopLineTimer();
+            Vector3[] positions = new Vector3[_currentLine.positionCount];
+            _currentLine.GetPositions(positions);
+            LineData lineData = new LineData();
+            lineData.DrawingMethod = _drawingMethod;
+            lineData.LinePoints.AddRange(positions);
+            lineData.LineTime = lineTime;
+            _drawingDataManager.GetCurrentDrawingData().LineDataList.Add(lineData);
         }
 
         private void StartNewLine(Vector3 position, Material material, Color color, float lineWidth, bool automatedTaper)

@@ -13,8 +13,10 @@ public class DataCollector : MonoBehaviour
 
     private string _delimiter = ";";
 
-    public void SaveDataToFiles()
+    public void SaveDataToFiles(TimeManager timeManager, List<DrawingData> drawingDataList)
     {
+        _timeManager = timeManager;
+        _drawingDataList = drawingDataList;
         SaveGeneralInfoFile();
         SaveDrawingData();
     }
@@ -24,7 +26,7 @@ public class DataCollector : MonoBehaviour
         string fileName = Id + "-GeneralInfo";
         List<string> lines = new List<string>();
         lines.Add(dataEntry("Id", "OverallTime", "DrawingTime", "IntroTime"));
-        lines.Add(dataEntry(Id, getTimeSpanAsHourMinutesSeconds(_timeManager.OverallTime), getTimeSpanAsHourMinutesSeconds(_timeManager.DrawTime), getTimeSpanAsHourMinutesSeconds(_timeManager.IntroTime)));
+        lines.Add(dataEntry(Id, getTimeSpanAsHourMinutesSeconds(_timeManager.OverallTime), getTimeSpanAsHourMinutesSeconds(_timeManager.OverallDrawTime), getTimeSpanAsHourMinutesSeconds(_timeManager.IntroTime)));
         File.WriteAllLines(fileName + ".txt", lines);
     }
 

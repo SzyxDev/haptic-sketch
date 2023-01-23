@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeManager
+public class TimeManager : MonoBehaviour
 {
     private DateTime _overallTimeStart;
     public TimeSpan OverallTime { get; set; }
     private DateTime _drawTimeStart;
-    public TimeSpan DrawTime { get; set; }
+    private DateTime _overallDrawTimeStart;
+    public TimeSpan OverallDrawTime { get; set; }
     private DateTime _introTimeStart;
     public TimeSpan IntroTime { get; set; }
     private DateTime _lineTimeStart;
-    public List<TimeSpan> LineTimes = new List<TimeSpan>();
 
     public void StartOverallTimer()
     {
@@ -24,14 +24,24 @@ public class TimeManager
         OverallTime = DateTime.Now.Subtract(_overallTimeStart);
     }
 
+    public void StartOverallDrawTimer()
+    {
+        _overallDrawTimeStart = DateTime.Now;
+    }
+
+    public void StopOverallDrawTimer()
+    {
+        OverallDrawTime = DateTime.Now.Subtract(_overallDrawTimeStart);
+    }
+
     public void StartDrawTimer()
     {
         _drawTimeStart = DateTime.Now;
     }
 
-    public void StopDrawTimer()
+    public TimeSpan StopDrawTimer()
     {
-        DrawTime = DateTime.Now.Subtract(_drawTimeStart);
+        return DateTime.Now.Subtract(_drawTimeStart);
     }
 
     public void StartIntroTimer()
@@ -49,9 +59,9 @@ public class TimeManager
         _lineTimeStart = DateTime.Now;
     }
 
-    public void StopLineTimer()
+    public TimeSpan StopLineTimer()
     {
-        LineTimes.Add(DateTime.Now.Subtract(_lineTimeStart));
+        return DateTime.Now.Subtract(_lineTimeStart);
     }
 
 }
