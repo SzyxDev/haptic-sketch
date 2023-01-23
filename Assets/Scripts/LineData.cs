@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LineData
 {
-    private TimeSpan _lineTime { get; set; }
-    private List<Vector3> _linePoints { get; set; }
-    private string _drawingMethod { get; set; }
+    public TimeSpan LineTime { get; set; }
+    public List<Vector3> LinePoints { get; set; }
+    public string DrawingMethod { get; set; }
 }
