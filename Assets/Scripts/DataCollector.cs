@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class DataCollector : MonoBehaviour
+public class DataCollector
 {
-    [Tooltip("Unique Name every DataFile will use")]
-    public string Id;
     private TimeManager _timeManager;
     private List<DrawingData> _drawingDataList;
+    private string _id;
 
     private string _delimiter = ";";
 
-    public void SaveDataToFiles(TimeManager timeManager, List<DrawingData> drawingDataList)
+    public void SaveDataToFiles(TimeManager timeManager, List<DrawingData> drawingDataList, string id)
     {
+        _id = id;
         _timeManager = timeManager;
         _drawingDataList = drawingDataList;
         SaveGeneralInfoFile();
@@ -23,10 +23,10 @@ public class DataCollector : MonoBehaviour
 
     private void SaveGeneralInfoFile()
     {
-        string fileName = Id + "-GeneralInfo";
+        string fileName = _id + "-GeneralInfo";
         List<string> lines = new List<string>();
         lines.Add(dataEntry("Id", "OverallTime", "DrawingTime", "IntroTime"));
-        lines.Add(dataEntry(Id, getTimeSpanAsHourMinutesSeconds(_timeManager.OverallTime), getTimeSpanAsHourMinutesSeconds(_timeManager.OverallDrawTime), getTimeSpanAsHourMinutesSeconds(_timeManager.IntroTime)));
+        lines.Add(dataEntry(_id, getTimeSpanAsHourMinutesSeconds(_timeManager.OverallTime), getTimeSpanAsHourMinutesSeconds(_timeManager.OverallDrawTime), getTimeSpanAsHourMinutesSeconds(_timeManager.IntroTime)));
         File.WriteAllLines(fileName + ".txt", lines);
     }
 
@@ -35,10 +35,10 @@ public class DataCollector : MonoBehaviour
         int i = 1;
         foreach (DrawingData drawingData in _drawingDataList)
         {
-            string fileName = Id + "-" + drawingData.Name;
+            string fileName = _id + "-" + drawingData.Name;
             List<string> lines = new List<string>();
             lines.Add(dataEntry("Id", "Name", "DrawingMethods", "Order", "DrawingTime", "NumberOfLines"));
-            lines.Add(dataEntry(Id, drawingData.Name, drawingData.DrawingMethodsAllowed, i.ToString(), getTimeSpanAsHourMinutesSeconds(drawingData.TimeSpentDrawing), drawingData.NumberOfLinesDrawn.ToString()));
+            lines.Add(dataEntry(_id, drawingData.Name, drawingData.DrawingMethodsAllowed, i.ToString(), getTimeSpanAsHourMinutesSeconds(drawingData.TimeSpentDrawing), drawingData.NumberOfLinesDrawn.ToString()));
             File.WriteAllLines(fileName + ".txt", lines);
 
             int j = 0;

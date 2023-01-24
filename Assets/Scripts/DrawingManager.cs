@@ -8,6 +8,7 @@ public class DrawingManager : MonoBehaviour
     {
         MidAir,
         Surface,
+        Board,
         Both,
         None
     }
@@ -27,7 +28,7 @@ public class DrawingManager : MonoBehaviour
 
     public bool IsDrawingAllowed(DrawingInteraction drawingInteraction)
     {
-        return (drawingInteraction == _allowedDrawingInteraction && DoesAMaximumOfOneDrawingExist()) || _allowedDrawingInteraction == DrawingInteraction.Both;
+        return drawingInteraction == _allowedDrawingInteraction || _allowedDrawingInteraction == DrawingInteraction.Both;
     }
 
     private bool DoesAMaximumOfOneDrawingExist()
