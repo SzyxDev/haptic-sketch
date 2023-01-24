@@ -38,7 +38,7 @@ public class TasksNavigator : MonoBehaviour
         _drawingDataManager = GetComponent<DrawingDataManager>();
         _text = MessageBox.GetComponent<UnityEngine.UI.Text>();
         _text.text = Locale == "de" ? Messages.IntroDe : Messages.IntroEn;
-        _counter = 7;
+        _counter = 8;
         _methodCounter = 0;
         _methodCounter2 = 0;
         _latinSquareCounter = 0;
@@ -51,9 +51,6 @@ public class TasksNavigator : MonoBehaviour
     {
         switch (_counter)
         {
-            case 7:
-                _text.text = Locale == "de" ? Messages.IntroDe : Messages.IntroEn;
-                break;
             case 8:
                 _text.text = Messages.Instructions1;
                 break;
@@ -170,14 +167,14 @@ public class TasksNavigator : MonoBehaviour
         }
         else
         {
-            if ((ThreeDrawingMethods && _methodCounter2 == 2) || (!ThreeDrawingMethods && _methodCounter2 == 1))
+            if ((ThreeDrawingMethods && _methodCounter2 == 3) || (!ThreeDrawingMethods && _methodCounter2 == 2))
             {
-                if (_latinSquareCounter == 0)
+                if (_latinSquareCounter == 0 && _methodCounter == 0)
                 {
                     _timeManager.StopIntroTimer();
                     _timeManager.StartOverallDrawTimer();
                 }
-                else if (_latinSquareCounter >= BalancedLatinSquare.Shapes.Length)
+                else if (_latinSquareCounter >= BalancedLatinSquare.Shapes.Length - 1)
                 {
                     _counter = 0;
                     _methodCounter = 0;
@@ -187,7 +184,7 @@ public class TasksNavigator : MonoBehaviour
                 _counter = BalancedLatinSquare.Shapes[LatinSquareId, _latinSquareCounter];
                 _latinSquareCounter++;
 
-                if (ThreeDrawingMethods && _methodCounter <= BalancedLatinSquare.Methods3.Length)
+                if (ThreeDrawingMethods && _methodCounter <= BalancedLatinSquare.Methods3.Length - 1)
                 {
                     _methodCounter++;
                 }
@@ -196,7 +193,7 @@ public class TasksNavigator : MonoBehaviour
                     _methodCounter = 0;
                 }
 
-                if (!ThreeDrawingMethods && _methodCounter <= BalancedLatinSquare.Methods2.Length)
+                if (!ThreeDrawingMethods && _methodCounter <= BalancedLatinSquare.Methods2.Length - 1)
                 {
                     _methodCounter++;
                 }

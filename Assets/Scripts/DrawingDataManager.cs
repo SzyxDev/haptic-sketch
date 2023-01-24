@@ -13,7 +13,7 @@ public class DrawingDataManager : MonoBehaviour
 
     public DrawingData GetCurrentDrawingData()
     {
-        return DrawingDataList[DrawingDataList.Count];
+        return DrawingDataList[DrawingDataList.Count - 1];
     }
 
     public DrawingData CreateNewDrawingData()

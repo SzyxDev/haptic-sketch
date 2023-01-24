@@ -11,26 +11,41 @@ public class DataCollector
     private string _id;
 
     private string _delimiter = ";";
+    private string _path = @"D:\Data\Study";
 
     public void SaveDataToFiles(TimeManager timeManager, List<DrawingData> drawingDataList, string id)
     {
         _id = id;
+        _path += @"\" + _id + @"\";
         _timeManager = timeManager;
         _drawingDataList = drawingDataList;
-        SaveGeneralInfoFile();
-        SaveDrawingData();
+        createDirectory();
+        saveGeneralInfoFile();
+        saveDrawingData();
     }
 
-    private void SaveGeneralInfoFile()
+    private void createDirectory()
+    {
+        if (Directory.Exists(_path))
+        {
+            return;
+        }
+        else
+        {
+            Directory.CreateDirectory(_path);
+        }
+    }
+
+    private void saveGeneralInfoFile()
     {
         string fileName = _id + "-GeneralInfo";
         List<string> lines = new List<string>();
         lines.Add(dataEntry("Id", "OverallTime", "DrawingTime", "IntroTime"));
         lines.Add(dataEntry(_id, getTimeSpanAsHourMinutesSeconds(_timeManager.OverallTime), getTimeSpanAsHourMinutesSeconds(_timeManager.OverallDrawTime), getTimeSpanAsHourMinutesSeconds(_timeManager.IntroTime)));
-        File.WriteAllLines(fileName + ".txt", lines);
+        File.WriteAllLines(_path + fileName + ".txt", lines);
     }
 
-    private void SaveDrawingData()
+    private void saveDrawingData()
     {
         int i = 1;
         foreach (DrawingData drawingData in _drawingDataList)
@@ -39,7 +54,7 @@ public class DataCollector
             List<string> lines = new List<string>();
             lines.Add(dataEntry("Id", "Name", "DrawingMethods", "Order", "DrawingTime", "NumberOfLines"));
             lines.Add(dataEntry(_id, drawingData.Name, drawingData.DrawingMethodsAllowed, i.ToString(), getTimeSpanAsHourMinutesSeconds(drawingData.TimeSpentDrawing), drawingData.NumberOfLinesDrawn.ToString()));
-            File.WriteAllLines(fileName + ".txt", lines);
+            File.WriteAllLines(_path + fileName + ".txt", lines);
 
             int j = 0;
             lines.Clear();
@@ -50,7 +65,7 @@ public class DataCollector
                 saveLineDataPoints(lineData, fileName, j);
                 j++;
             }
-            File.WriteAllLines(fileName + "-Info" + ".txt", lines);
+            File.WriteAllLines(_path + fileName + "-Info" + ".txt", lines);
             i++;
         }
     }
@@ -69,7 +84,7 @@ public class DataCollector
         {
             lines.Add(dataEntry(points.x.ToString(), points.y.ToString(), points.z.ToString()));
         }
-        File.WriteAllLines(fileName + ".txt", lines);
+        File.WriteAllLines(_path + fileName + ".txt", lines);
     }
 
     private string getTimeSpanAsHourMinutesSeconds(TimeSpan timeSpan)

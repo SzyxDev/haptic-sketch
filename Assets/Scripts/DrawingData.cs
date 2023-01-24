@@ -5,17 +5,14 @@ using UnityEngine;
 
 public class DrawingData
 {
-    public string Name {get; set;}
-    public TimeSpan TimeSpentDrawing {get; set;}
-    public string DrawingMethodsAllowed {get; set;}
-    public int NumberOfLinesDrawn {get; set;}
-    public List<LineData> LineDataList
+    public string Name { get; set; }
+    public TimeSpan TimeSpentDrawing { get; set; }
+    public string DrawingMethodsAllowed { get; set; }
+    public int NumberOfLinesDrawn { get { return LineDataList.Count; } set { NumberOfLinesDrawn = value; } }
+    public List<LineData> LineDataList { get; set; }
+
+    public DrawingData()
     {
-        get { return LineDataList; }
-        set
-        {
-            LineDataList = value;
-            NumberOfLinesDrawn = LineDataList.Count;
-        }
+        LineDataList = new List<LineData>();
     }
 }

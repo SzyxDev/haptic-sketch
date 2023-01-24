@@ -118,7 +118,10 @@
         protected override void OnTriggerInvalid()
         {
             _currentLine.gameObject.AddComponent<UndoRedoGameObject>();
-            addLineDataToDrawingData();
+            if (_drawingDataManager.DrawingDataList.Count > 0)
+            {
+                addLineDataToDrawingData();
+            }
         }
 
         private void addLineDataToDrawingData()

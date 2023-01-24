@@ -8,4 +8,9 @@ public class LineData
     public TimeSpan LineTime { get; set; }
     public List<Vector3> LinePoints { get; set; }
     public string DrawingMethod { get; set; }
+
+    public LineData() 
+    {
+        LinePoints = new List<Vector3>();
+    }
 }
