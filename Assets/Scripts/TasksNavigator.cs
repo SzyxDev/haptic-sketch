@@ -28,6 +28,8 @@ public class TasksNavigator : MonoBehaviour
     private DrawingDataManager _drawingDataManager;
     private DrawingManager.DrawingInteraction _drawingInteraction;
 
+    private int c = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -107,7 +109,7 @@ public class TasksNavigator : MonoBehaviour
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
             default:
-                updateStopData();
+                _text.text = Locale == "de" ? Messages.EndDe : Messages.EndEn;
                 _timeManager.StopOverallDrawTimer();
                 _timeManager.StopOverallTimer();
                 _dataCollector.SaveDataToFiles(_timeManager, _drawingDataManager.DrawingDataList, Id);
@@ -131,7 +133,7 @@ public class TasksNavigator : MonoBehaviour
         }
         else if (drawingInteractionId == 3)
         {
-            return DrawingManager.DrawingInteraction.Board;
+            return DrawingManager.DrawingInteraction.Controller;
         }
 
         return DrawingManager.DrawingInteraction.Both;
@@ -155,36 +157,61 @@ public class TasksNavigator : MonoBehaviour
         {
             return Messages.TasksInActionSurfaceDe;
         }
+        else if (drawingInteraction == DrawingManager.DrawingInteraction.Controller && Locale == "en")
+        {
+            return Messages.TasksInActionControllerEn;
+        }
+        else if (drawingInteraction == DrawingManager.DrawingInteraction.Controller && Locale == "de")
+        {
+            return Messages.TasksInActionControllerDe;
+        }
 
         return "ERROR: NO VALID DRAWING INTERACTION";
     }
 
     private void updateCounters()
     {
-        if (_counter < 9)
+        if (_counter == 0)
+        {
+            return;
+        }
+        Debug.Log(c + " Counter: " + _counter);
+        Debug.Log(c + " LatinCounter: " + _latinSquareCounter);
+        Debug.Log(c + " MCounter1: " + _methodCounter);
+        Debug.Log(c + " MCounter2: " + _methodCounter2);
+        c++;
+        if (_counter < 9 && _counter >= 8)
         {
             _counter++;
         }
         else
         {
-            if ((ThreeDrawingMethods && _methodCounter2 == 3) || (!ThreeDrawingMethods && _methodCounter2 == 2))
+            if (_counter != 9)
             {
-                if (_latinSquareCounter == 0 && _methodCounter == 0)
-                {
-                    _timeManager.StopIntroTimer();
-                    _timeManager.StartOverallDrawTimer();
-                }
-                else if (_latinSquareCounter >= BalancedLatinSquare.Shapes.Length - 1)
-                {
-                    _counter = 0;
-                    _methodCounter = 0;
-                    _methodCounter2 = 0;
-                    return;
-                }
+                updateStopData();
+            }
+            if (_latinSquareCounter == 0 && _methodCounter2 == 0)
+            {
+                _timeManager.StopIntroTimer();
+                _timeManager.StartOverallDrawTimer();
                 _counter = BalancedLatinSquare.Shapes[LatinSquareId, _latinSquareCounter];
+            }
+            if (_latinSquareCounter >= BalancedLatinSquare.Shapes.GetLength(1) - 1)
+            {
+                Debug.Log("End");
+                _counter = 0;
+                _methodCounter = 0;
+                _methodCounter2 = 0;
+                _latinSquareCounter = 0;
+                return;
+            }
+
+            if ((ThreeDrawingMethods && _methodCounter2 == 2) || (!ThreeDrawingMethods && _methodCounter2 == 1))
+            {
                 _latinSquareCounter++;
+                _counter = BalancedLatinSquare.Shapes[LatinSquareId, _latinSquareCounter];
 
-                if (ThreeDrawingMethods && _methodCounter <= BalancedLatinSquare.Methods3.Length - 1)
+                if ((ThreeDrawingMethods && _methodCounter <= BalancedLatinSquare.Methods3.GetLength(1) - 1) || (!ThreeDrawingMethods && _methodCounter <= BalancedLatinSquare.Methods2.GetLength(1) - 1))
                 {
                     _methodCounter++;
                 }
@@ -192,29 +219,18 @@ public class TasksNavigator : MonoBehaviour
                 {
                     _methodCounter = 0;
                 }
-
-                if (!ThreeDrawingMethods && _methodCounter <= BalancedLatinSquare.Methods2.Length - 1)
-                {
-                    _methodCounter++;
-                }
-                else
-                {
-                    _methodCounter = 0;
-                }
-
 
                 _methodCounter2 = 0;
             }
             else
             {
-                _methodCounter2++;
+                if (_counter != 9)
+                {
+                    _methodCounter2++;
+
+                }
             }
         }
-    }
-
-    private string getAllowedMethods(int id)
-    {
-        return "";
     }
 
     private void updateStartData(string allowedDrawingInteraction, string name)
@@ -222,7 +238,7 @@ public class TasksNavigator : MonoBehaviour
         _timeManager.StartDrawTimer();
         DrawingData drawingData = _drawingDataManager.CreateNewDrawingData();
         drawingData.DrawingMethodsAllowed = allowedDrawingInteraction;
-        drawingData.Name = name;
+        drawingData.Name = name + allowedDrawingInteraction.ToString();
     }
 
     private void updateStopData()

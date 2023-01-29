@@ -8,7 +8,7 @@ public class DrawingManager : MonoBehaviour
     {
         MidAir,
         Surface,
-        Board,
+        Controller,
         Both,
         None
     }
@@ -28,6 +28,11 @@ public class DrawingManager : MonoBehaviour
 
     public bool IsDrawingAllowed(DrawingInteraction drawingInteraction)
     {
+        if (drawingInteraction == DrawingInteraction.MidAir)
+        {
+            return true;
+        }
+        
         return drawingInteraction == _allowedDrawingInteraction || _allowedDrawingInteraction == DrawingInteraction.Both;
     }
 
