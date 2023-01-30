@@ -42,7 +42,7 @@ public class DataCollector
         List<string> lines = new List<string>();
         lines.Add(dataEntry("Id", "OverallTime", "DrawingTime", "IntroTime"));
         lines.Add(dataEntry(_id, getTimeSpanAsHourMinutesSeconds(_timeManager.OverallTime), getTimeSpanAsHourMinutesSeconds(_timeManager.OverallDrawTime), getTimeSpanAsHourMinutesSeconds(_timeManager.IntroTime)));
-        File.WriteAllLines(_path + fileName + ".txt", lines);
+        File.WriteAllLines(_path + fileName + ".csv", lines);
     }
 
     private void saveDrawingData()
@@ -54,7 +54,7 @@ public class DataCollector
             List<string> lines = new List<string>();
             lines.Add(dataEntry("Id", "Name", "DrawingMethods", "Order", "DrawingTime", "NumberOfLines"));
             lines.Add(dataEntry(_id, drawingData.Name, drawingData.DrawingMethodsAllowed, i.ToString(), getTimeSpanAsHourMinutesSeconds(drawingData.TimeSpentDrawing), drawingData.NumberOfLinesDrawn.ToString()));
-            File.WriteAllLines(_path + fileName + ".txt", lines);
+            File.WriteAllLines(_path + fileName + ".csv", lines);
 
             int j = 0;
             lines.Clear();
@@ -65,7 +65,7 @@ public class DataCollector
                 saveLineDataPoints(lineData, fileName, j);
                 j++;
             }
-            File.WriteAllLines(_path + fileName + "-Info" + ".txt", lines);
+            File.WriteAllLines(_path + fileName + "-Info" + ".csv", lines);
             i++;
         }
     }
@@ -84,7 +84,7 @@ public class DataCollector
         {
             lines.Add(dataEntry(points.x.ToString(), points.y.ToString(), points.z.ToString()));
         }
-        File.WriteAllLines(_path + fileName + ".txt", lines);
+        File.WriteAllLines(_path + fileName + ".csv", lines);
     }
 
     private string getTimeSpanAsHourMinutesSeconds(TimeSpan timeSpan)

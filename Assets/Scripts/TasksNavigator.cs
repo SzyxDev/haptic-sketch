@@ -108,12 +108,14 @@ public class TasksNavigator : MonoBehaviour
                 updateStartData(_drawingInteraction.ToString(), "Pyramid");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
-            default:
+            case 0:
                 _text.text = Locale == "de" ? Messages.EndDe : Messages.EndEn;
                 _timeManager.StopOverallDrawTimer();
                 _timeManager.StopOverallTimer();
                 _dataCollector.SaveDataToFiles(_timeManager, _drawingDataManager.DrawingDataList, Id);
                 _counter = 0;
+                break;
+            default:
                 break;
         }
         updateCounters();
@@ -171,8 +173,9 @@ public class TasksNavigator : MonoBehaviour
 
     private void updateCounters()
     {
-        if (_counter == 0)
+        if (_counter <= 0)
         {
+            _counter = -1;
             return;
         }
         Debug.Log(c + " Counter: " + _counter);
