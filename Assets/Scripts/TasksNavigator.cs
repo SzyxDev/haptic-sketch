@@ -42,7 +42,7 @@ public class TasksNavigator : MonoBehaviour
         _text.text = Locale == "de" ? Messages.IntroDe : Messages.IntroEn;
         _counter = 8;
         _methodCounter = 0;
-        _methodCounter2 = 0;
+        _methodCounter2 = -1;
         _latinSquareCounter = 0;
         _timeManager.StartOverallTimer();
         _timeManager.StartIntroTimer();
@@ -190,18 +190,18 @@ public class TasksNavigator : MonoBehaviour
             {
                 updateStopData();
             }
-            if (_latinSquareCounter == 0 && _methodCounter2 == 0)
+            if (_latinSquareCounter == 0 && _methodCounter2 == -1)
             {
                 _timeManager.StopIntroTimer();
                 _timeManager.StartOverallDrawTimer();
                 _counter = BalancedLatinSquare.Shapes[LatinSquareId, _latinSquareCounter];
             }
-            if (_latinSquareCounter >= BalancedLatinSquare.Shapes.GetLength(1) - 1)
+            if (_latinSquareCounter >= BalancedLatinSquare.Shapes.GetLength(1) - 1 && (ThreeDrawingMethods && _methodCounter2 >= BalancedLatinSquare.Methods3.GetLength(1) - 1) || (!ThreeDrawingMethods && _methodCounter2 >= BalancedLatinSquare.Methods2.GetLength(1) - 1))
             {
                 Debug.Log("End");
                 _counter = 0;
                 _methodCounter = 0;
-                _methodCounter2 = 0;
+                _methodCounter2 = -1;
                 _latinSquareCounter = 0;
                 return;
             }
@@ -227,7 +227,6 @@ public class TasksNavigator : MonoBehaviour
                 if (_counter != 9)
                 {
                     _methodCounter2++;
-
                 }
             }
         }
