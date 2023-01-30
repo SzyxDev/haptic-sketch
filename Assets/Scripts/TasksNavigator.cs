@@ -54,10 +54,10 @@ public class TasksNavigator : MonoBehaviour
         switch (_counter)
         {
             case 8:
-                _text.text = Messages.Instructions1;
+                _text.text = Locale == "de" ? Messages.Instructions1De : Messages.Instructions1En;
                 break;
             case 9:
-                _text.text = Messages.Instructions2;
+                _text.text = Locale == "de" ? Messages.Instructions2De : Messages.Instructions2En;
                 _drawingManager.SetAllowedDrawingInteraction(DrawingManager.DrawingInteraction.Both);
                 break;
             case 1:
