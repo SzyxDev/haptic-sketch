@@ -38,7 +38,7 @@ public class DataCollector
 
     private void saveGeneralInfoFile()
     {
-        string fileName = _id + "-GeneralInfo";
+        string fileName = _id + "_GeneralInfo";
         List<string> lines = new List<string>();
         lines.Add(dataEntry("Id", "OverallTime", "DrawingTime", "IntroTime"));
         lines.Add(dataEntry(_id, getTimeSpanAsHourMinutesSeconds(_timeManager.OverallTime), getTimeSpanAsHourMinutesSeconds(_timeManager.OverallDrawTime), getTimeSpanAsHourMinutesSeconds(_timeManager.IntroTime)));
@@ -50,7 +50,7 @@ public class DataCollector
         int i = 1;
         foreach (DrawingData drawingData in _drawingDataList)
         {
-            string fileName = _id + "-" + drawingData.Name;
+            string fileName = _id + "_" + drawingData.Name;
             List<string> lines = new List<string>();
             lines.Add(dataEntry("Id", "Name", "DrawingMethods", "Order", "DrawingTime", "NumberOfLines"));
             lines.Add(dataEntry(_id, drawingData.Name, drawingData.DrawingMethodsAllowed, i.ToString(), getTimeSpanAsHourMinutesSeconds(drawingData.TimeSpentDrawing), drawingData.NumberOfLinesDrawn.ToString()));
@@ -65,7 +65,7 @@ public class DataCollector
                 saveLineDataPoints(lineData, fileName, j);
                 j++;
             }
-            File.WriteAllLines(_path + fileName + "-Info" + ".csv", lines);
+            File.WriteAllLines(_path + fileName + "_Info" + ".csv", lines);
             i++;
         }
     }

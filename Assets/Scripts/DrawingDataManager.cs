@@ -13,6 +13,10 @@ public class DrawingDataManager : MonoBehaviour
 
     public DrawingData GetCurrentDrawingData()
     {
+        if (DrawingDataList.Count == 0)
+        {
+            return null;
+        }
         return DrawingDataList[DrawingDataList.Count - 1];
     }
 

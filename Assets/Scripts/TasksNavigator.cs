@@ -51,6 +51,10 @@ public class TasksNavigator : MonoBehaviour
 
     public void SwitchIntroText()
     {
+        if (_counter < 8 && _drawingDataManager.GetCurrentDrawingData() != null && _drawingDataManager.GetCurrentDrawingData().LineDataList.Count == 0)
+        {
+            return;
+        }
         switch (_counter)
         {
             case 8:
