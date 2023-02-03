@@ -14,15 +14,17 @@ public class DrawingManager : MonoBehaviour
     }
 
     private DrawingInteraction _allowedDrawingInteraction;
+    private DrawingDataManager _drawingDataManager;
 
     void Start()
     {
         _allowedDrawingInteraction = DrawingInteraction.None;
+        _drawingDataManager = GetComponent<DrawingDataManager>();
     }
 
     public void SetAllowedDrawingInteraction(DrawingInteraction drawingInteraction)
     {
-        DestroyDrawings();
+        DestroyDrawings(false);
         _allowedDrawingInteraction = drawingInteraction;
     }
 
@@ -32,7 +34,7 @@ public class DrawingManager : MonoBehaviour
         {
             return true;
         }
-        
+
         return drawingInteraction == _allowedDrawingInteraction || _allowedDrawingInteraction == DrawingInteraction.Both;
     }
 
@@ -41,11 +43,19 @@ public class DrawingManager : MonoBehaviour
         return GameObject.FindGameObjectsWithTag("Drawing").Length <= 1;
     }
 
-    public void DestroyDrawings()
+    public void DestroyDrawings(bool clearData)
     {
         foreach (GameObject drawing in GameObject.FindGameObjectsWithTag("Drawing"))
         {
             Destroy(drawing);
+        }
+        if (clearData)
+        {
+            DrawingData drawingData = _drawingDataManager.GetCurrentDrawingData();
+            if (drawingData != null)
+            {
+                drawingData.LineDataList.Clear();
+            }
         }
     }
 
