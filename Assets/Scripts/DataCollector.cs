@@ -13,10 +13,10 @@ public class DataCollector
     private string _delimiter = ";";
     private string _path = @"D:\Data\Study";
 
-    public void SaveDataToFiles(TimeManager timeManager, List<DrawingData> drawingDataList, string id)
+    public void SaveDataToFiles(TimeManager timeManager, List<DrawingData> drawingDataList, string id, string drawingInteraction)
     {
         _id = id;
-        _path += @"\" + _id + @"\";
+        _path += @"\" + _id + @"\" + drawingInteraction + @"\";
         _timeManager = timeManager;
         _drawingDataList = drawingDataList;
         createDirectory();

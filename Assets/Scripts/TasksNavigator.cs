@@ -11,7 +11,7 @@ public class TasksNavigator : MonoBehaviour
     [Tooltip("Unique Name every DataFile will use")]
     public string Id;
     public int LatinSquareId;
-    public bool ThreeDrawingMethods;
+    public int MethodId;
 
     [Tooltip("en or de allowed")]
     public string Locale;
@@ -19,8 +19,6 @@ public class TasksNavigator : MonoBehaviour
     private UnityEngine.UI.Text _text;
     private int _counter;
     private int _latinSquareCounter;
-    private int _methodCounter;
-    private int _methodCounter2;
     private TemplateRenderer _templateRenderer;
     private DrawingManager _drawingManager;
     private TimeManager _timeManager;
@@ -41,8 +39,6 @@ public class TasksNavigator : MonoBehaviour
         _text = MessageBox.GetComponent<UnityEngine.UI.Text>();
         _text.text = Locale == "de" ? Messages.IntroDe : Messages.IntroEn;
         _counter = 8;
-        _methodCounter = 0;
-        _methodCounter2 = -1;
         _latinSquareCounter = 0;
         _timeManager.StartOverallTimer();
         _timeManager.StartIntroTimer();
@@ -68,7 +64,7 @@ public class TasksNavigator : MonoBehaviour
                 // Square
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.SquareDe : Messages.SquareEn;
-                _text.text += "\n" + getDrawingInteractionText(_drawingInteraction);
+                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Square");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -76,7 +72,7 @@ public class TasksNavigator : MonoBehaviour
                 // Cube
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.CubeDe : Messages.CubeEn;
-                _text.text += "\n" + getDrawingInteractionText(_drawingInteraction);
+                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Cube");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -84,7 +80,7 @@ public class TasksNavigator : MonoBehaviour
                 // Circle
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.CircleDe : Messages.CircleEn;
-                _text.text += "\n" + getDrawingInteractionText(_drawingInteraction);
+                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Circle");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -92,7 +88,7 @@ public class TasksNavigator : MonoBehaviour
                 // Sphere
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.SphereDe : Messages.SphereEn;
-                _text.text += "\n" + getDrawingInteractionText(_drawingInteraction);
+                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Sphere");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -100,7 +96,7 @@ public class TasksNavigator : MonoBehaviour
                 // Triangle
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.TriangleDe : Messages.TriangleEn;
-                _text.text += "\n" + getDrawingInteractionText(_drawingInteraction);
+                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Triangle");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -108,7 +104,7 @@ public class TasksNavigator : MonoBehaviour
                 // Pyramid
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.PyramidDe : Messages.PyramidEn;
-                _text.text += "\n" + getDrawingInteractionText(_drawingInteraction);
+                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Pyramid");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -116,7 +112,7 @@ public class TasksNavigator : MonoBehaviour
                 _text.text = Locale == "de" ? Messages.EndDe : Messages.EndEn;
                 _timeManager.StopOverallDrawTimer();
                 _timeManager.StopOverallTimer();
-                _dataCollector.SaveDataToFiles(_timeManager, _drawingDataManager.DrawingDataList, Id);
+                _dataCollector.SaveDataToFiles(_timeManager, _drawingDataManager.DrawingDataList, Id, _drawingInteraction.ToString());
                 _counter = 0;
                 break;
             default:
@@ -127,17 +123,15 @@ public class TasksNavigator : MonoBehaviour
 
     private DrawingManager.DrawingInteraction getDrawingInteraction()
     {
-        int drawingInteractionId = ThreeDrawingMethods ? BalancedLatinSquare.Methods3[_methodCounter, _methodCounter2] : BalancedLatinSquare.Methods2[_methodCounter, _methodCounter2];
-
-        if (drawingInteractionId == 1)
+        if (MethodId == 0)
         {
             return DrawingManager.DrawingInteraction.MidAir;
         }
-        else if (drawingInteractionId == 2)
+        else if (MethodId == 1)
         {
             return DrawingManager.DrawingInteraction.Both;
         }
-        else if (drawingInteractionId == 3)
+        else if (MethodId == 2)
         {
             return DrawingManager.DrawingInteraction.Controller;
         }
@@ -145,29 +139,29 @@ public class TasksNavigator : MonoBehaviour
         return DrawingManager.DrawingInteraction.Both;
     }
 
-    private string getDrawingInteractionText(DrawingManager.DrawingInteraction drawingInteraction)
+    private string getDrawingInteractionText()
     {
-        if (drawingInteraction == DrawingManager.DrawingInteraction.MidAir && Locale == "en")
+        if (MethodId == (int)DrawingManager.DrawingInteraction.MidAir && Locale == "en")
         {
             return Messages.TasksInActionMidAirEn;
         }
-        else if (drawingInteraction == DrawingManager.DrawingInteraction.MidAir && Locale == "de")
+        else if (MethodId == (int)DrawingManager.DrawingInteraction.MidAir && Locale == "de")
         {
             return Messages.TasksInActionMidAirDe;
         }
-        else if (drawingInteraction == DrawingManager.DrawingInteraction.Both && Locale == "en")
+        else if (MethodId == (int)DrawingManager.DrawingInteraction.Both && Locale == "en")
         {
             return Messages.TasksInActionSurfaceEn;
         }
-        else if (drawingInteraction == DrawingManager.DrawingInteraction.Both && Locale == "de")
+        else if (MethodId == (int)DrawingManager.DrawingInteraction.Both && Locale == "de")
         {
             return Messages.TasksInActionSurfaceDe;
         }
-        else if (drawingInteraction == DrawingManager.DrawingInteraction.Controller && Locale == "en")
+        else if (MethodId == (int)DrawingManager.DrawingInteraction.Controller && Locale == "en")
         {
             return Messages.TasksInActionControllerEn;
         }
-        else if (drawingInteraction == DrawingManager.DrawingInteraction.Controller && Locale == "de")
+        else if (MethodId == (int)DrawingManager.DrawingInteraction.Controller && Locale == "de")
         {
             return Messages.TasksInActionControllerDe;
         }
@@ -177,16 +171,13 @@ public class TasksNavigator : MonoBehaviour
 
     private void updateCounters()
     {
+        Debug.Log("Lat: " + _latinSquareCounter);
+        Debug.Log("Count: " + _counter);
         if (_counter <= 0)
         {
             _counter = -1;
             return;
         }
-        Debug.Log(c + " Counter: " + _counter);
-        Debug.Log(c + " LatinCounter: " + _latinSquareCounter);
-        Debug.Log(c + " MCounter1: " + _methodCounter);
-        Debug.Log(c + " MCounter2: " + _methodCounter2);
-        c++;
         if (_counter < 9 && _counter >= 8)
         {
             _counter++;
@@ -197,45 +188,20 @@ public class TasksNavigator : MonoBehaviour
             {
                 updateStopData();
             }
-            if (_latinSquareCounter == 0 && _methodCounter2 == -1)
+            if (_latinSquareCounter == 0)
             {
                 _timeManager.StopIntroTimer();
                 _timeManager.StartOverallDrawTimer();
-                _counter = BalancedLatinSquare.Shapes[LatinSquareId, _latinSquareCounter];
             }
-            if (_latinSquareCounter >= BalancedLatinSquare.Shapes.GetLength(1) - 1 && (ThreeDrawingMethods && _methodCounter2 >= BalancedLatinSquare.Methods3.GetLength(1) - 1) || (!ThreeDrawingMethods && _methodCounter2 >= BalancedLatinSquare.Methods2.GetLength(1) - 1))
+            else if (_latinSquareCounter >= BalancedLatinSquare.Shapes.GetLength(1))
             {
                 Debug.Log("End");
                 _counter = 0;
-                _methodCounter = 0;
-                _methodCounter2 = -1;
                 _latinSquareCounter = 0;
                 return;
             }
-
-            if ((ThreeDrawingMethods && _methodCounter2 == 2) || (!ThreeDrawingMethods && _methodCounter2 == 1))
-            {
-                _latinSquareCounter++;
-                _counter = BalancedLatinSquare.Shapes[LatinSquareId, _latinSquareCounter];
-
-                if ((ThreeDrawingMethods && _methodCounter <= BalancedLatinSquare.Methods3.GetLength(1) - 1) || (!ThreeDrawingMethods && _methodCounter <= BalancedLatinSquare.Methods2.GetLength(1) - 1))
-                {
-                    _methodCounter++;
-                }
-                else
-                {
-                    _methodCounter = 0;
-                }
-
-                _methodCounter2 = 0;
-            }
-            else
-            {
-                if (_counter != 9)
-                {
-                    _methodCounter2++;
-                }
-            }
+            _counter = BalancedLatinSquare.Shapes[LatinSquareId, _latinSquareCounter];
+            _latinSquareCounter++;
         }
     }
 
@@ -244,7 +210,7 @@ public class TasksNavigator : MonoBehaviour
         _timeManager.StartDrawTimer();
         DrawingData drawingData = _drawingDataManager.CreateNewDrawingData();
         drawingData.DrawingMethodsAllowed = allowedDrawingInteraction;
-        drawingData.Name = name + allowedDrawingInteraction.ToString();
+        drawingData.Name = name;
     }
 
     private void updateStopData()

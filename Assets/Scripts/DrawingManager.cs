@@ -7,9 +7,9 @@ public class DrawingManager : MonoBehaviour
     public enum DrawingInteraction
     {
         MidAir,
-        Surface,
-        Controller,
         Both,
+        Controller,
+        Surface,
         None
     }
 
