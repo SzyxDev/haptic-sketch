@@ -38,6 +38,9 @@
         private DrawingDataManager _drawingDataManager;
 
         [SerializeField]
+        private BoardCollider _boardCollider;
+
+        [SerializeField]
         private string _drawingMethod;
 
         private Provider<float> _maxLineWidth = new FunctionProvider<float>(() => DrawingVariables.Instance.LineMaxWidth * DrawingVariables.AirWidthModifier);
@@ -130,7 +133,14 @@
             Vector3[] positions = new Vector3[_currentLine.positionCount];
             _currentLine.GetPositions(positions);
             LineData lineData = new LineData();
-            lineData.DrawingMethod = _drawingMethod;
+            if (_boardCollider.IsTipTouching)
+            {
+                lineData.DrawingMethod = "VirtualBoard";
+            }
+            else
+            {
+                lineData.DrawingMethod = _drawingMethod;
+            }
             lineData.LinePoints.AddRange(positions);
             lineData.LineTime = lineTime;
             _drawingDataManager.GetCurrentDrawingData().LineDataList.Add(lineData);
