@@ -135,7 +135,7 @@
             LineData lineData = new LineData();
             if (_boardCollider.IsTipTouching)
             {
-                lineData.DrawingMethod = "VirtualBoard";
+                lineData.DrawingMethod = "VirtualSurface";
             }
             else
             {

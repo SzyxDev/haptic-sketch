@@ -25,6 +25,7 @@ public class TasksNavigator : MonoBehaviour
     private DataCollector _dataCollector;
     private DrawingDataManager _drawingDataManager;
     private DrawingManager.DrawingInteraction _drawingInteraction;
+    private bool _isDrawingActive;
 
     private int c = 0;
 
@@ -42,6 +43,7 @@ public class TasksNavigator : MonoBehaviour
         _latinSquareCounter = 0;
         _timeManager.StartOverallTimer();
         _timeManager.StartIntroTimer();
+        _isDrawingActive = false;
     }
 
 
@@ -50,6 +52,11 @@ public class TasksNavigator : MonoBehaviour
         if (_counter < 8 && _drawingDataManager.GetCurrentDrawingData() != null && _drawingDataManager.GetCurrentDrawingData().LineDataList.Count == 0)
         {
             return;
+        }
+        if (_isDrawingActive)
+        {
+            updateStopData();
+            _isDrawingActive = false;
         }
         switch (_counter)
         {
@@ -184,10 +191,6 @@ public class TasksNavigator : MonoBehaviour
         }
         else
         {
-            if (_counter != 9)
-            {
-                updateStopData();
-            }
             if (_latinSquareCounter == 0)
             {
                 _timeManager.StopIntroTimer();
@@ -211,6 +214,7 @@ public class TasksNavigator : MonoBehaviour
         DrawingData drawingData = _drawingDataManager.CreateNewDrawingData();
         drawingData.DrawingMethodsAllowed = allowedDrawingInteraction;
         drawingData.Name = name;
+        _isDrawingActive = true;
     }
 
     private void updateStopData()

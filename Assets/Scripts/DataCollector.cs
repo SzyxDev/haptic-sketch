@@ -41,7 +41,7 @@ public class DataCollector
         string fileName = _id + "_GeneralInfo";
         List<string> lines = new List<string>();
         lines.Add(dataEntry("Id", "OverallTime", "DrawingTime", "IntroTime"));
-        lines.Add(dataEntry(_id, getTimeSpanAsHourMinutesSeconds(_timeManager.OverallTime), getTimeSpanAsHourMinutesSeconds(_timeManager.OverallDrawTime), getTimeSpanAsHourMinutesSeconds(_timeManager.IntroTime)));
+        lines.Add(dataEntry(_id, getTimeSpanAsMinutesAndSeconds(_timeManager.OverallTime), getTimeSpanAsMinutesAndSeconds(_timeManager.OverallDrawTime), getTimeSpanAsMinutesAndSeconds(_timeManager.IntroTime)));
         File.WriteAllLines(_path + fileName + ".csv", lines);
     }
 
@@ -53,7 +53,7 @@ public class DataCollector
             string fileName = _id + "_" + drawingData.Name;
             List<string> lines = new List<string>();
             lines.Add(dataEntry("Id", "Name", "DrawingMethods", "Order", "DrawingTime", "NumberOfLines"));
-            lines.Add(dataEntry(_id, drawingData.Name, drawingData.DrawingMethodsAllowed, i.ToString(), getTimeSpanAsHourMinutesSeconds(drawingData.TimeSpentDrawing), drawingData.NumberOfLinesDrawn.ToString()));
+            lines.Add(dataEntry(_id, drawingData.Name, drawingData.DrawingMethodsAllowed, i.ToString(), getTimeSpanAsMinutesAndSeconds(drawingData.TimeSpentDrawing), drawingData.NumberOfLinesDrawn.ToString()));
             File.WriteAllLines(_path + fileName + ".csv", lines);
 
             int j = 0;
@@ -72,7 +72,7 @@ public class DataCollector
 
     private string getLineDataInfoEntry(LineData lineData, int lineId)
     {
-        return dataEntry(lineId.ToString(), lineData.DrawingMethod, getTimeSpanAsHourMinutesSeconds(lineData.LineTime));
+        return dataEntry(lineId.ToString(), lineData.DrawingMethod, getTimeSpanAsSeconds(lineData.LineTime));
     }
 
     private void saveLineDataPoints(LineData lineData, string name, int lineNumber)
@@ -87,9 +87,14 @@ public class DataCollector
         File.WriteAllLines(_path + fileName + ".csv", lines);
     }
 
-    private string getTimeSpanAsHourMinutesSeconds(TimeSpan timeSpan)
+    private string getTimeSpanAsMinutesAndSeconds(TimeSpan timeSpan)
     {
-        return timeSpan.ToString(@"hh\:mm\:ss");
+        return timeSpan.ToString(@"mm\:ss");
+    }
+
+    private string getTimeSpanAsSeconds(TimeSpan timeSpan)
+    {
+        return timeSpan.ToString(@"ss\.fff");
     }
 
     private string dataEntry(params string[] input)
