@@ -58,7 +58,7 @@
 
             if (CanDraw)
             {
-                CanDraw = _drawingManager.IsDrawingAllowed(DrawingManager.DrawingInteraction.MidAir);
+                CanDraw = _drawingManager.IsDrawingAllowed(DrawingManager.DrawingInteraction.Midair);
             }
             _airDrawingAction.Update(CanDraw && !_preventAirDrawingOnCollision.IsValid());
         }

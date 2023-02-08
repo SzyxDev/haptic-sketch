@@ -62,16 +62,16 @@ public class TasksNavigator : MonoBehaviour
         {
             case 8:
                 _text.text = Locale == "de" ? Messages.Instructions1De : Messages.Instructions1En;
+                _text.text += "\n" + getDrawingInteractionText();
                 break;
             case 9:
                 _text.text = Locale == "de" ? Messages.Instructions2De : Messages.Instructions2En;
-                _drawingManager.SetAllowedDrawingInteraction(DrawingManager.DrawingInteraction.Both);
+                _drawingManager.SetAllowedDrawingInteraction(DrawingManager.DrawingInteraction.HapticSurface);
                 break;
             case 1:
                 // Square
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.SquareDe : Messages.SquareEn;
-                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Square");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -79,7 +79,6 @@ public class TasksNavigator : MonoBehaviour
                 // Cube
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.CubeDe : Messages.CubeEn;
-                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Cube");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -87,7 +86,6 @@ public class TasksNavigator : MonoBehaviour
                 // Circle
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.CircleDe : Messages.CircleEn;
-                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Circle");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -95,7 +93,6 @@ public class TasksNavigator : MonoBehaviour
                 // Sphere
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.SphereDe : Messages.SphereEn;
-                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Sphere");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -103,7 +100,6 @@ public class TasksNavigator : MonoBehaviour
                 // Triangle
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.TriangleDe : Messages.TriangleEn;
-                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Triangle");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -111,7 +107,6 @@ public class TasksNavigator : MonoBehaviour
                 // Pyramid
                 _drawingInteraction = getDrawingInteraction();
                 _text.text = Locale == "de" ? Messages.PyramidDe : Messages.PyramidEn;
-                _text.text += "\n" + getDrawingInteractionText();
                 updateStartData(_drawingInteraction.ToString(), "Pyramid");
                 _drawingManager.SetAllowedDrawingInteraction(_drawingInteraction);
                 break;
@@ -132,43 +127,43 @@ public class TasksNavigator : MonoBehaviour
     {
         if (MethodId == 0)
         {
-            return DrawingManager.DrawingInteraction.MidAir;
+            return DrawingManager.DrawingInteraction.Midair;
         }
         else if (MethodId == 1)
         {
-            return DrawingManager.DrawingInteraction.Both;
+            return DrawingManager.DrawingInteraction.HapticSurface;
         }
         else if (MethodId == 2)
         {
-            return DrawingManager.DrawingInteraction.Controller;
+            return DrawingManager.DrawingInteraction.VirtualSurface;
         }
 
-        return DrawingManager.DrawingInteraction.Both;
+        return DrawingManager.DrawingInteraction.HapticSurface;
     }
 
     private string getDrawingInteractionText()
     {
-        if (MethodId == (int)DrawingManager.DrawingInteraction.MidAir && Locale == "en")
+        if (MethodId == (int)DrawingManager.DrawingInteraction.Midair && Locale == "en")
         {
             return Messages.TasksInActionMidAirEn;
         }
-        else if (MethodId == (int)DrawingManager.DrawingInteraction.MidAir && Locale == "de")
+        else if (MethodId == (int)DrawingManager.DrawingInteraction.Midair && Locale == "de")
         {
             return Messages.TasksInActionMidAirDe;
         }
-        else if (MethodId == (int)DrawingManager.DrawingInteraction.Both && Locale == "en")
+        else if (MethodId == (int)DrawingManager.DrawingInteraction.HapticSurface && Locale == "en")
         {
             return Messages.TasksInActionSurfaceEn;
         }
-        else if (MethodId == (int)DrawingManager.DrawingInteraction.Both && Locale == "de")
+        else if (MethodId == (int)DrawingManager.DrawingInteraction.HapticSurface && Locale == "de")
         {
             return Messages.TasksInActionSurfaceDe;
         }
-        else if (MethodId == (int)DrawingManager.DrawingInteraction.Controller && Locale == "en")
+        else if (MethodId == (int)DrawingManager.DrawingInteraction.VirtualSurface && Locale == "en")
         {
             return Messages.TasksInActionControllerEn;
         }
-        else if (MethodId == (int)DrawingManager.DrawingInteraction.Controller && Locale == "de")
+        else if (MethodId == (int)DrawingManager.DrawingInteraction.VirtualSurface && Locale == "de")
         {
             return Messages.TasksInActionControllerDe;
         }

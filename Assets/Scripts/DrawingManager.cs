@@ -6,9 +6,9 @@ public class DrawingManager : MonoBehaviour
 {
     public enum DrawingInteraction
     {
-        MidAir,
-        Both,
-        Controller,
+        Midair,
+        HapticSurface,
+        VirtualSurface,
         Surface,
         None
     }
@@ -30,12 +30,12 @@ public class DrawingManager : MonoBehaviour
 
     public bool IsDrawingAllowed(DrawingInteraction drawingInteraction)
     {
-        if (drawingInteraction == DrawingInteraction.MidAir)
+        if (drawingInteraction == DrawingInteraction.Midair)
         {
             return true;
         }
 
-        return drawingInteraction == _allowedDrawingInteraction || _allowedDrawingInteraction == DrawingInteraction.Both;
+        return drawingInteraction == _allowedDrawingInteraction || _allowedDrawingInteraction == DrawingInteraction.HapticSurface;
     }
 
     private bool DoesAMaximumOfOneDrawingExist()
